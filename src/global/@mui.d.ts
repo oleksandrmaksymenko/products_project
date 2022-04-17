@@ -10,6 +10,7 @@ type PaletteType = {
   primary: PaletteVariantType & {
     text: string;
   };
+  tertiary: PaletteVariantType;
   secondary: PaletteVariantType;
   error: PaletteVariantType;
   warning: PaletteVariantType;

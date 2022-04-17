@@ -5,11 +5,13 @@ declare module '@emotion/react' {
     palette: {
       mode: string;
       primary: {
-        main: string;
         text: string;
       };
       custom: {
         red: string;
+      };
+      tertiary: {
+        main: string;
       };
     };
     size: {

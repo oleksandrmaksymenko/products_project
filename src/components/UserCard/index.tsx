@@ -15,7 +15,7 @@ const UserCard: React.FC<UserTypes> = ({image, name, email}) => {
   return (
     <Div>
       <Avatar src={image} alt='user image' />
-      <Typography variant='subtitle1' component='p' color={green[200]}>
+      <Typography variant='subtitle1' component='p' color='info'>
         {name}
       </Typography>
     </Div>

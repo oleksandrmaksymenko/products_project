@@ -48,6 +48,12 @@ export const darkTheme = createTheme({
       contrastText: lightBlue[50],
       light: lightBlue[300],
     },
+    tertiary: {
+      main: red[600],
+      dark: red[600],
+      contrastText: red[50],
+      light: red[300],
+    },
     custom: {
       red: '#f33',
     },
@@ -84,6 +90,12 @@ export const lightTheme = createTheme({
       dark: lightBlue[600],
       contrastText: lightBlue[50],
       light: lightBlue[300],
+    },
+    tertiary: {
+      main: red[600],
+      dark: red[600],
+      contrastText: red[50],
+      light: red[300],
     },
     success: {
       main: green[600],

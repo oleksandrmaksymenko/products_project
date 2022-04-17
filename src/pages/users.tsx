@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import {useDispatch} from 'react-redux';
 import {userApi} from 'src/api';
 import {checkSession} from 'src/checkSession';
-import type {NextPageContext} from 'next';
+import type {GetServerSidePropsContext, PreviewData} from 'next';
 import UserModal from 'src/components/UserModal';
 import UserTable, {PickUserDataType} from 'src/components/UserTable';
+import {wrapper} from 'src/store';
+import {useAppDispatch, useAppSelector} from 'src/store/hooks';
 import {clearPopup, showPopup} from 'src/store/reducers/popup';
+import {getUsers} from 'src/store/reducers/users';
 import type {ApiUsersType} from 'src/types/api';
 import {
   Table,
@@ -27,7 +29,8 @@ const StackContainer = styled.div`
   margin-bottom: 16px;
 `.withComponent(Stack);
 
-const Users: React.FC<UserProps> = ({users}) => {
+const Users: React.FC<UserProps> = () => {
+  const users = useAppSelector(store => store.users);
   const [filter, setFilter] = React.useState('');
   const [usersData, setUsersData] = React.useState<ApiUsersType[]>(users);
   const [isModalShow, setIsModalShow] = React.useState(false);
@@ -38,7 +41,7 @@ const Users: React.FC<UserProps> = ({users}) => {
     id: '',
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const filterUser = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value);
@@ -62,10 +65,6 @@ const Users: React.FC<UserProps> = ({users}) => {
         title: 'Create User',
       })
     );
-  };
-
-  const hide = () => {
-    dispatch(clearPopup());
   };
 
   const saveUserData = async (userData: any) => {
@@ -128,6 +127,7 @@ const Users: React.FC<UserProps> = ({users}) => {
             <TableBody>
               {usersData.map(user => (
                 <UserTable
+                  key={user.id}
                   {...user}
                   {...{setUser}}
                   {...{setIsModalShow}}
@@ -143,11 +143,13 @@ const Users: React.FC<UserProps> = ({users}) => {
   );
 };
 
-export async function getServerSideProps(context: NextPageContext) {
-  const users = await userApi.getUsers();
-  return await checkSession(context, '', '', false, {
-    users: users.data || [],
-  });
-}
+export const getServerSideProps = wrapper.getServerSideProps(
+  store => async (context: GetServerSidePropsContext) => {
+    const {data} = await userApi.getUsers();
+    store.dispatch(getUsers(data));
+
+    return await checkSession(context, '', '', false);
+  }
+);
 
 export default Users;

@@ -1,4 +1,4 @@
-import {NextPageContext} from 'next';
+import {GetServerSidePropsContext, NextPageContext} from 'next';
 import {getSession} from 'next-auth/react';
 import clientPromise from 'src/lib/mongodb';
 
@@ -14,7 +14,7 @@ const redirect = (destination?: string, isRedirect?: boolean) => {
 };
 
 export const checkSession = async <T>(
-  ctx: NextPageContext,
+  ctx: GetServerSidePropsContext,
   signIn?: string,
   signOut?: string,
   isRedirect?: boolean,

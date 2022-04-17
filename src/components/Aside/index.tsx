@@ -14,7 +14,7 @@ const menuItems = [
   },
   {
     href: 'products',
-    title: 'Product',
+    title: 'Products',
   },
   {
     href: 'settings',
@@ -22,16 +22,16 @@ const menuItems = [
   },
 ];
 
-const StyledAside = styled
-  .aside({
-    width: '200px',
-    padding: '10px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    borderRadius: '10px',
-  })
-  .withComponent(Paper);
+const StyledAside = styled.aside`
+  width: 250px;
+  height: calc(100% - 32px);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 10px;
+  position: fixed;
+`.withComponent(Paper);
 
 const Aside: React.FC = () => {
   const {data: session} = useSession();
