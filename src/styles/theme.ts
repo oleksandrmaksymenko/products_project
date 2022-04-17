@@ -1,4 +1,11 @@
-import {blueGrey, lightBlue} from '@mui/material/colors';
+import {
+  blueGrey,
+  lightBlue,
+  red,
+  blue,
+  deepOrange,
+  green,
+} from '@mui/material/colors';
 import {createTheme} from '@mui/material/styles';
 
 export const darkTheme = createTheme({
@@ -24,7 +31,7 @@ export const darkTheme = createTheme({
       light: lightBlue[300],
     },
     error: {
-      main: lightBlue[600],
+      main: red[600],
       dark: lightBlue[600],
       contrastText: lightBlue[50],
       light: lightBlue[300],
@@ -79,25 +86,25 @@ export const lightTheme = createTheme({
       light: lightBlue[300],
     },
     success: {
-      main: lightBlue[600],
+      main: green[600],
       dark: lightBlue[600],
       contrastText: lightBlue[50],
       light: lightBlue[300],
     },
     error: {
-      main: lightBlue[600],
+      main: red[600],
       dark: lightBlue[600],
       contrastText: lightBlue[50],
       light: lightBlue[300],
     },
     info: {
-      main: lightBlue[600],
-      dark: lightBlue[600],
+      main: blue[600],
+      dark: lightBlue[900],
       contrastText: lightBlue[50],
       light: lightBlue[300],
     },
     warning: {
-      main: lightBlue[600],
+      main: deepOrange[600],
       dark: lightBlue[600],
       contrastText: lightBlue[50],
       light: lightBlue[300],

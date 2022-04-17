@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import {useSession} from 'next-auth/react';
 import React from 'react';
 import Aside from 'src/components/Aside';
+import Popup from 'src/components/Popup';
+import SnackBar from 'src/components/SnackBar';
 import SignIn from 'src/pages/auth/signin';
 
 const LayoutContainer = styled.div`
@@ -25,6 +27,8 @@ const Layout: React.FC<LayoutType> = ({children}) => {
     <LayoutContainer>
       {!session && <SignIn />}
       {session && <Aside />}
+      <Popup />
+      <SnackBar />
       <ChildrenContainer>{children}</ChildrenContainer>
     </LayoutContainer>
   );

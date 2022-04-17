@@ -40,6 +40,9 @@ declare module '@mui/material/styles' {
   interface Theme {
     palette: PaletteType;
     components: Components;
+    size: {
+      primary: string;
+    };
   }
   interface ThemeOptions {
     palette?: PaletteType;

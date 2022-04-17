@@ -8,6 +8,8 @@ import Switch from '@mui/material/Switch';
 import createEmotionCache from 'src/styles/createEmotionCache';
 import {darkTheme, lightTheme} from 'src/styles/theme';
 import styled from '@emotion/styled';
+import {Provider} from 'react-redux';
+import {store} from '../store';
 import 'src/styles/globals.css';
 
 const clientSideEmotionCache = createEmotionCache();
@@ -37,15 +39,17 @@ export default function App({
   };
 
   return (
-    <SessionProvider session={session} refetchInterval={5 * 60}>
-      <CacheProvider value={emotionCache}>
-        <ThemeProvider theme={theme ? lightTheme : darkTheme}>
-          <Input onChange={handleChange} />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
-      </CacheProvider>
-    </SessionProvider>
+    <Provider store={store}>
+      <SessionProvider session={session} refetchInterval={5 * 60}>
+        <CacheProvider value={emotionCache}>
+          <ThemeProvider theme={theme ? lightTheme : darkTheme}>
+            <Input onChange={handleChange} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ThemeProvider>
+        </CacheProvider>
+      </SessionProvider>
+    </Provider>
   );
 }

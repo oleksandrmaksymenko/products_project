@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {api} from 'src/api/index';
 import {ApiUsersHeaderType, ApiUsersType} from 'src/types/api';
 
@@ -21,3 +22,12 @@ export const editUser = async (user: ApiUsersType): Promise<ApiUsersType> => {
 
 export const deleteUser = async (id: string) =>
   await api.delete(`/users/${id}`);
+
+export const createUser = async (
+  user: Pick<ApiUsersType, 'firstName' | 'lastName' | 'email'>
+) =>
+  await axios.post('http://localhost/users', {
+    ...user,
+    image: '',
+    createdAt: Date.now(),
+  });
