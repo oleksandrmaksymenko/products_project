@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
+import {blueGrey} from '@mui/material/colors';
 import {useSession} from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react';
 import Navigation from 'src/components/Aside/Navigation';
 import MuiLink from '@mui/material/Link';
-import {Stack, Typography, Paper} from '@mui/material';
-import UserCard from 'src/components/UserCard';
+import {Stack, Typography, Paper, Divider} from '@mui/material';
 
 const menuItems = [
   {
@@ -33,23 +33,45 @@ const StyledAside = styled.aside`
   position: fixed;
 `.withComponent(Paper);
 
+const Figure = styled.figure`
+  display: flex;
+  margin-bottom: 16px;
+`;
+
+const Figcaption = styled.figcaption`
+  margin-left: 16px;
+`;
+
 const Aside: React.FC = () => {
   const {data: session} = useSession();
 
   return (
     <StyledAside elevation={2} variant='elevation'>
-      {session && <UserCard {...session.user} />}
-      {session && (
-        <Stack direction='column'>
-          {menuItems.map(menu => (
-            <Link key={menu.href} href={`/${menu.href}`} passHref>
-              <MuiLink color='secondary' underline='hover'>
-                <Typography component='p'>{menu.title}</Typography>
-              </MuiLink>
-            </Link>
-          ))}
-        </Stack>
-      )}
+      <div>
+        <Figure>
+          <img src='https://via.placeholder.com/50' alt='' />
+          <Figcaption>
+            <Typography variant='body1' color='secondary'>
+              project name
+            </Typography>
+            <Typography variant='body2' color={blueGrey[50]}>
+              v0.0.1
+            </Typography>
+          </Figcaption>
+        </Figure>
+        <Divider sx={{marginBottom: '16px'}} />
+        {session && (
+          <Stack direction='column'>
+            {menuItems.map(menu => (
+              <Link key={menu.href} href={`/${menu.href}`} passHref>
+                <MuiLink color='secondary' underline='hover'>
+                  <Typography component='p'>{menu.title}</Typography>
+                </MuiLink>
+              </Link>
+            ))}
+          </Stack>
+        )}
+      </div>
       <Navigation />
     </StyledAside>
   );

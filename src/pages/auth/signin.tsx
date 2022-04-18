@@ -1,5 +1,5 @@
 import React from 'react';
-import {NextPageContext} from 'next';
+import {GetServerSidePropsContext} from 'next';
 import {signIn} from 'next-auth/react';
 import {checkSession} from 'src/checkSession';
 import Button from '@mui/material/Button';
@@ -18,7 +18,7 @@ const SignIn = () => {
   return <Button onClick={handeClick}>signIn</Button>;
 };
 
-export async function getServerSideProps(context: NextPageContext) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   return await checkSession(context, '/profile', '', true);
 }
 

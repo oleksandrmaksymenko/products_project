@@ -7,7 +7,33 @@
       "updatedAt": 1650044452874,
       "createdAt": "2014-09-22T18:42:29.695Z",
       "image": "https://i.pravatar.cc/150?u=62593c9a46eb58de6fc01220",
-      "id": "62593c9a46eb58de6fc01220"
+      "role": "customer",
+      "id": "62593c9a46eb58de6fc01220",
+      "address": {
+        "main": {
+          "type": "street",
+          "street": "Tolstogo",
+          "house": "15",
+          "apt": "26",
+          "comment": "some comment"
+        },
+        "second": {
+          "type": "avenue",
+          "street": "Zhylyanska",
+          "house": "58",
+          "apt": "27",
+          "comment": "27"
+        }
+      }
+    },
+    {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "some@mail.com",
+      "createdAt": "2014-09-22T18:42:29.695Z",
+      "image": "https://i.pravatar.cc/150?u=62593c9a412wdfawerq220",
+      "role": "user",
+      "id": "62593c9a412wdfawerq220"
     }
   ],
   "products": []

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, {MouseEventHandler} from 'react';
 import {userApi} from 'src/api';
 import {checkSession} from 'src/checkSession';
 import type {GetServerSidePropsContext, PreviewData} from 'next';
@@ -20,7 +20,11 @@ import {
   TextField,
   Stack,
   Button,
+  InputAdornment,
+  Typography,
 } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import AddSharpIcon from '@mui/icons-material/AddSharp';
 
 type UserProps = Record<'users', ApiUsersType[]>;
 
@@ -28,17 +32,47 @@ const StackContainer = styled.div`
   margin-bottom: 16px;
 `.withComponent(Stack);
 
+const UsersContainer = styled.div`
+  width: 100vw;
+  max-width: 1200px;
+`;
+
+const FilterUserContainer = styled.div`
+  margin-bottom: 16px;
+`.withComponent(Stack);
+
+const FilteredButton = styled.button`
+  &.active {
+    box-shadow: -1px 1px 9px 0 rgb(29 138 201);
+  }
+`.withComponent(Button);
+
+const usersFilterList = (activeButton: string) => [
+  {
+    id: 1,
+    className: activeButton === '' ? 'active' : '',
+    filterBy: '',
+    text: 'All users',
+  },
+  {
+    id: 2,
+    className: activeButton === 'customer' ? 'active' : '',
+    filterBy: 'customer',
+    text: 'Customer',
+  },
+  {
+    id: 3,
+    className: activeButton === 'user' ? 'active' : '',
+    filterBy: 'user',
+    text: 'User',
+  },
+];
+
 const Users: React.FC<UserProps> = () => {
   const users = useAppSelector(store => store.users);
   const [filter, setFilter] = React.useState('');
   const [usersData, setUsersData] = React.useState<ApiUsersType[]>(users);
-  const [isModalShow, setIsModalShow] = React.useState(false);
-  const [user, setUser] = React.useState<PickUserDataType>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    id: '',
-  });
+  const [activeButton, setActiveButton] = React.useState('');
 
   const dispatch = useAppDispatch();
 
@@ -53,10 +87,6 @@ const Users: React.FC<UserProps> = () => {
     setUsersData(filteredUsers);
   };
 
-  const handleClose = () => {
-    setIsModalShow(false);
-  };
-
   const createUser = () => {
     dispatch(
       showPopup({
@@ -66,73 +96,92 @@ const Users: React.FC<UserProps> = () => {
     );
   };
 
-  const saveUserData = async (userData: any) => {
-    try {
-      if (user) {
-        const updatedUserData = await userApi.editUser(
-          userData as ApiUsersType
-        );
-        const updatedUsers = usersData.map(user =>
-          user.id === updatedUserData.id
-            ? {...user, ...updatedUserData}
-            : {...user}
-        );
+  const filterUserByRole = (role: string) => {
+    const filteredUsers: ApiUsersType[] = users.filter(user =>
+      user.role.includes(role)
+    );
 
-        setUsersData(updatedUsers);
-        setIsModalShow(false);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    setActiveButton(role);
+    setUsersData(filteredUsers);
   };
 
   return (
-    <>
-      <div>
-        <StackContainer
-          direction='row'
-          justifyContent='space-between'
-          alignItems='stretch'
+    <UsersContainer>
+      <StackContainer
+        direction='row'
+        justifyContent='space-between'
+        alignItems='stretch'
+      >
+        <Typography variant='h5' color='primary'>
+          Users Management
+        </Typography>
+        <Button
+          onClick={createUser}
+          color='secondary'
+          variant='contained'
+          startIcon={<AddSharpIcon sx={{color: '#fff'}} />}
         >
-          <TextField
-            onChange={filterUser}
-            label='User text'
+          Create User
+        </Button>
+      </StackContainer>
+      <FilterUserContainer
+        direction='row'
+        justifyContent='flex-start'
+        spacing={2}
+      >
+        {usersFilterList(activeButton).map(item => (
+          <FilteredButton
+            key={item.id}
             size='small'
-            variant='filled'
-          />
-          <Button onClick={createUser} color='secondary'>
-            Create User
-          </Button>
-        </StackContainer>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Avatar</TableCell>
-                <TableCell>First Name</TableCell>
-                <TableCell>Last Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Created At</TableCell>
-                <TableCell>Updated At</TableCell>
-                <TableCell />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {usersData.map(user => (
-                <UserTable
-                  key={user.id}
-                  {...user}
-                  {...{setUser}}
-                  {...{setIsModalShow}}
-                  {...{setUsersData}}
-                  {...{usersData}}
-                />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </>
+            variant='contained'
+            color='secondary'
+            onClick={() => filterUserByRole(item.filterBy)}
+            className={item.className}
+          >
+            {item.text}
+          </FilteredButton>
+        ))}
+      </FilterUserContainer>
+      <TableContainer component={Paper}>
+        <TextField
+          onChange={filterUser}
+          label='Search user'
+          size='small'
+          sx={{width: 'calc(100% - 32px)', margin: '16px'}}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position='end'>
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Avatar</TableCell>
+              <TableCell>First Name</TableCell>
+              <TableCell>Last Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Role</TableCell>
+              <TableCell>Created At</TableCell>
+              <TableCell>Updated At</TableCell>
+              <TableCell />
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {usersData.map(user => (
+              <UserTable
+                key={user.id}
+                {...user}
+                {...{setUsersData}}
+                {...{usersData}}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </UsersContainer>
   );
 };
 

@@ -22,6 +22,7 @@ const UserTable: React.FC<UserTableProps> = ({
   lastName,
   createdAt,
   email,
+  role,
   updatedAt,
   setUsersData,
   usersData,
@@ -58,14 +59,19 @@ const UserTable: React.FC<UserTableProps> = ({
     );
   };
 
+  const handleClick = () => {
+    // TODO: Show user popup info
+  };
+
   return (
-    <TableRow key={id}>
+    <TableRow key={id} onClick={handleClick}>
       <TableCell width='80px'>
         <Avatar src={image} alt={firstName} />
       </TableCell>
       <TableCell>{firstName}</TableCell>
       <TableCell>{lastName}</TableCell>
       <TableCell>{email}</TableCell>
+      <TableCell>{role}</TableCell>
       <TableCell>{new Date(createdAt).toLocaleDateString()}</TableCell>
       <TableCell>
         {updatedAt ? new Date(updatedAt).toLocaleDateString() : 'Do not update'}

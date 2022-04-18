@@ -23,11 +23,6 @@ const Navigation: React.FC = () => {
           </MuiLnk>
         </Link>
       )}
-      <Link href='/auth/signout' passHref>
-        <MuiLnk color='secondary' underline='hover'>
-          <Typography variant='subtitle1'>Sign OUT</Typography>
-        </MuiLnk>
-      </Link>
     </Nav>
   );
 };

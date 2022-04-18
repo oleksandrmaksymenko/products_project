@@ -5,6 +5,7 @@ import React from 'react';
 import Aside from 'src/components/Aside';
 import Popup from 'src/components/Popup';
 import SnackBar from 'src/components/SnackBar';
+import UserTopBar from 'src/components/UserTopBar';
 import SignIn from 'src/pages/auth/signin';
 import {useAppDispatch, useAppSelector} from 'src/store/hooks';
 import {setTheme} from 'src/store/reducers';
@@ -42,7 +43,10 @@ const Layout: React.FC<LayoutType> = ({children}) => {
       <Input onChange={() => dispatch(setTheme(!theme))} value={theme} />
       <Popup />
       <SnackBar />
-      <ChildrenContainer>{children}</ChildrenContainer>
+      <ChildrenContainer>
+        <UserTopBar />
+        {children}
+      </ChildrenContainer>
     </LayoutContainer>
   );
 };
