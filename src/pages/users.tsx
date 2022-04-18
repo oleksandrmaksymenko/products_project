@@ -3,11 +3,10 @@ import React from 'react';
 import {userApi} from 'src/api';
 import {checkSession} from 'src/checkSession';
 import type {GetServerSidePropsContext, PreviewData} from 'next';
-import UserModal from 'src/components/UserModal';
 import UserTable, {PickUserDataType} from 'src/components/UserTable';
 import {wrapper} from 'src/store';
 import {useAppDispatch, useAppSelector} from 'src/store/hooks';
-import {clearPopup, showPopup} from 'src/store/reducers/popup';
+import {showPopup} from 'src/store/reducers/popup';
 import {getUsers} from 'src/store/reducers/users';
 import type {ApiUsersType} from 'src/types/api';
 import {
@@ -90,12 +89,6 @@ const Users: React.FC<UserProps> = () => {
   return (
     <>
       <div>
-        <UserModal
-          {...{isModalShow}}
-          {...{handleClose}}
-          {...{saveUserData}}
-          {...{user}}
-        />
         <StackContainer
           direction='row'
           justifyContent='space-between'

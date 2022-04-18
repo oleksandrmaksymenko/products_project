@@ -5,6 +5,7 @@ import {
   usersSlice,
   popupSlice,
   themeSlice,
+  currentUserSlice,
 } from 'src/store/reducers';
 
 const makeStore = () =>
@@ -14,6 +15,7 @@ const makeStore = () =>
       [snackBarSlice.name]: snackBarSlice.reducer,
       [usersSlice.name]: usersSlice.reducer,
       [themeSlice.name]: themeSlice.reducer,
+      [currentUserSlice.name]: currentUserSlice.reducer,
     },
     devTools: true,
   });

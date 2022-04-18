@@ -1,18 +1,9 @@
-import React from 'react';
-import {Box, Button, Modal, Stack, TextField, Typography} from '@mui/material';
+import React, {useEffect} from 'react';
+import {Button, Stack, TextField} from '@mui/material';
 import type {PickUserDataType} from 'src/components/UserTable';
-
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+import styled from '@emotion/styled';
+import {useAppDispatch, useAppSelector} from 'src/store/hooks';
+import {clearCurrentUser, clearPopup} from 'src/store/reducers';
 
 type UserModalProps = {
   isModalShow: boolean;
@@ -21,12 +12,14 @@ type UserModalProps = {
   user: PickUserDataType;
 };
 
-const UserModal: React.FC<UserModalProps> = ({
-  isModalShow,
-  handleClose,
-  user,
-  saveUserData,
-}) => {
+const StackContainer = styled.div`
+  margin-top: 16px;
+`.withComponent(Stack);
+
+const UserModal: React.FC<UserModalProps> = () => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(state => state.currentUser);
+
   const [userData, setUserData] = React.useState<
     PickUserDataType & {password: string}
   >({...user, password: ''});
@@ -35,58 +28,52 @@ const UserModal: React.FC<UserModalProps> = ({
     setUserData({...userData, [e.target.name]: e.target.value});
   };
 
+  const saveUserData = () => {
+    // TODO: Save user
+  };
+
+  const handleCancel = () => {
+    dispatch(clearPopup());
+    dispatch(clearCurrentUser());
+  };
+
   return (
-    <Modal
-      open={isModalShow}
-      onClose={handleClose}
-      aria-labelledby='modal-modal-title'
-      aria-describedby='modal-modal-description'
-    >
-      <Box sx={style}>
-        {user && (
-          <Stack direction='column' spacing={2}>
-            <Typography variant='subtitle1' color='secondary'>
-              Edit user
-            </Typography>
-            <TextField
-              onChange={handleChangeName}
-              value={userData.firstName}
-              name='firstName'
-              size='small'
-              variant='filled'
-            />
-            <TextField
-              onChange={handleChangeName}
-              value={userData.lastName}
-              name='lastName'
-              size='small'
-              variant='filled'
-            />
-            <TextField
-              onChange={handleChangeName}
-              value={userData.email}
-              name='email'
-              size='small'
-              variant='filled'
-            />
-            <TextField
-              onChange={handleChangeName}
-              value={userData.password}
-              type='password'
-              size='small'
-              variant='filled'
-              name='password'
-            />
-            <Button
-              color='secondary'
-              onClick={() => saveUserData({...userData, id: user.id})}
-            >
-              Submit
-            </Button>
-          </Stack>
-        )}
-      </Box>
-    </Modal>
+    <Stack direction='column' spacing={2}>
+      <TextField
+        onChange={handleChangeName}
+        value={userData.firstName}
+        name='firstName'
+        size='small'
+        variant='filled'
+      />
+      <TextField
+        onChange={handleChangeName}
+        value={userData.lastName}
+        name='lastName'
+        size='small'
+        variant='filled'
+      />
+      <TextField
+        onChange={handleChangeName}
+        value={userData.email}
+        name='email'
+        size='small'
+        variant='filled'
+      />
+      <StackContainer
+        direction='row'
+        justifyContent='flex-end'
+        alignItems='center'
+        spacing={2}
+      >
+        <Button color='primary' onClick={handleCancel}>
+          Cancel
+        </Button>
+        <Button color='secondary' onClick={saveUserData}>
+          Submit
+        </Button>
+      </StackContainer>
+    </Stack>
   );
 };
 

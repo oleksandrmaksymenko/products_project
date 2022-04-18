@@ -1,6 +1,8 @@
 import React from 'react';
 import {userApi} from 'src/api';
 import {TableCell, TableRow, Avatar, Button, Stack} from '@mui/material';
+import {useAppDispatch} from 'src/store/hooks';
+import {setCurrentUser, showPopup} from 'src/store/reducers';
 import {ApiUsersType} from 'src/types/api';
 
 export type PickUserDataType = Pick<
@@ -9,8 +11,6 @@ export type PickUserDataType = Pick<
 >;
 
 type UserTableProps = ApiUsersType & {
-  setUser: (user: PickUserDataType) => void;
-  setIsModalShow: (state: boolean) => void;
   setUsersData: (user: ApiUsersType[]) => void;
   usersData: ApiUsersType[];
 };
@@ -25,13 +25,8 @@ const UserTable: React.FC<UserTableProps> = ({
   updatedAt,
   setUsersData,
   usersData,
-  setUser,
-  setIsModalShow,
 }) => {
-  const editUser = (user: PickUserDataType) => {
-    setIsModalShow(true);
-    setUser(user);
-  };
+  const dispatch = useAppDispatch();
 
   const deleteUser = (id: string) => {
     try {
@@ -44,6 +39,23 @@ const UserTable: React.FC<UserTableProps> = ({
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const handleEdit = () => {
+    dispatch(
+      showPopup({
+        type: 'currentUser',
+        title: 'Edit User',
+      })
+    );
+    dispatch(
+      setCurrentUser({
+        id,
+        firstName,
+        lastName,
+        email,
+      })
+    );
   };
 
   return (
@@ -67,18 +79,7 @@ const UserTable: React.FC<UserTableProps> = ({
           >
             delete
           </Button>
-          <Button
-            variant='outlined'
-            color='secondary'
-            onClick={() =>
-              editUser({
-                id,
-                firstName,
-                lastName,
-                email,
-              })
-            }
-          >
+          <Button variant='outlined' color='secondary' onClick={handleEdit}>
             edit
           </Button>
         </Stack>
