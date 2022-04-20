@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
 import {Button, Stack, TextField} from '@mui/material';
-import type {PickUserDataType} from 'src/components/UserTable';
+import type {PickUserDataType} from 'src/components/User/Table';
 import styled from '@emotion/styled';
 import {useAppDispatch, useAppSelector} from 'src/store/hooks';
 import {clearCurrentUser, clearPopup} from 'src/store/reducers';
+import {userApi} from 'src/api';
 
 type UserModalProps = {
   isModalShow: boolean;
@@ -29,7 +30,30 @@ const UserModal: React.FC<UserModalProps> = () => {
   };
 
   const saveUserData = () => {
-    // TODO: Save user
+    userApi
+      .editUser({
+        _id: userData._id,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        email: userData.email,
+        image: '',
+        role: 'some role',
+        address: {
+          main: {
+            type: 'string;',
+            street: 'string;',
+            house: 'string;',
+            apt: 'string;',
+            comment: 'string;',
+          },
+        },
+      })
+      .then(() => {
+        console.log(123);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleCancel = () => {

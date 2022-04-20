@@ -1,7 +1,10 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: process.env.API_URI,
+  baseURL: process.env.NEXT_PUBLIC_API_URI,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 export * as userApi from 'src/api/user';

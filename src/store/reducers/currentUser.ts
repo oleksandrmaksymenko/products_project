@@ -3,11 +3,11 @@ import {ApiUsersType} from 'src/types/api';
 
 type InitialStateType = Pick<
   ApiUsersType,
-  'id' | 'firstName' | 'lastName' | 'email'
+  '_id' | 'firstName' | 'lastName' | 'email'
 >;
 
 const initialState: InitialStateType = {
-  id: '',
+  _id: '',
   firstName: '',
   lastName: '',
   email: '',

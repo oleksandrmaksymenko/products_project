@@ -5,7 +5,7 @@ import React from 'react';
 import Aside from 'src/components/Aside';
 import Popup from 'src/components/Popup';
 import SnackBar from 'src/components/SnackBar';
-import UserTopBar from 'src/components/UserTopBar';
+import UserTopBar from 'src/components/User/TopBar';
 import SignIn from 'src/pages/auth/signin';
 import {useAppDispatch, useAppSelector} from 'src/store/hooks';
 import {setTheme} from 'src/store/reducers';

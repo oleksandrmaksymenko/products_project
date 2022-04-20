@@ -13,21 +13,18 @@ export type AddressType = {
 };
 
 export type UserAddressType = {
-  address: {
-    main: AddressType;
-    second: AddressType;
-  };
+  main: AddressType;
+  second?: AddressType;
 };
 
 export type ApiUsersType = {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
-  password: string;
-  image: string;
   email: string;
+  image: string;
   role: string;
   address: UserAddressType;
-  createdAt: string;
+  createdAt?: string;
   updatedAt?: string;
 };

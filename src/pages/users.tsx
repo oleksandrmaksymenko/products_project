@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import {userApi} from 'src/api';
+import {createUser} from 'src/api/user';
 import {checkSession} from 'src/checkSession';
 import type {GetServerSidePropsContext} from 'next';
-import UserTable, {PickUserDataType} from 'src/components/UserTable';
+import UserTable, {PickUserDataType} from 'src/components/User/Table';
 import {wrapper} from 'src/store';
 import {useAppDispatch, useAppSelector} from 'src/store/hooks';
 import {showPopup} from 'src/store/reducers/popup';
@@ -71,7 +72,7 @@ const usersFilterList = (activeButton: string) => [
 const Users: React.FC<UserProps> = () => {
   const users = useAppSelector(store => store.users);
   const [filter, setFilter] = React.useState('');
-  const [usersData, setUsersData] = React.useState<ApiUsersType[]>([]);
+  const [usersData, setUsersData] = React.useState<ApiUsersType[]>(users);
   const [activeButton, setActiveButton] = React.useState('');
 
   const dispatch = useAppDispatch();
@@ -173,7 +174,7 @@ const Users: React.FC<UserProps> = () => {
             <TableBody>
               {usersData.map(user => (
                 <UserTable
-                  key={user.id}
+                  key={user._id}
                   {...user}
                   {...{setUsersData}}
                   {...{usersData}}
@@ -189,12 +190,12 @@ const Users: React.FC<UserProps> = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   store => async (context: GetServerSidePropsContext) => {
-    // try {
-    //   const {data} = await userApi.getUsers();
-    //   store.dispatch(getUsers(data));
-    // } catch (e) {
-    //   console.log(e);
-    // }
+    try {
+      const {data} = await userApi.getUsers();
+      store.dispatch(getUsers(data));
+    } catch (e) {
+      console.log(e);
+    }
     return await checkSession(context, '', '', false);
   }
 );

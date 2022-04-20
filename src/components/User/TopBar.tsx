@@ -10,7 +10,7 @@ import {
 import {signOut, useSession} from 'next-auth/react';
 import React from 'react';
 import styled from '@emotion/styled';
-import UserCard from 'src/components/UserCard';
+import UserCard from 'src/components/User/Card';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import IconButton from '@mui/material/IconButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';

@@ -1,4 +1,3 @@
-import {ObjectId} from 'mongodb';
 import {api} from 'src/api/index';
 import {ApiUsersHeaderType, ApiUsersType} from 'src/types/api';
 
@@ -9,13 +8,8 @@ export const getUsers = async (total?: number): Promise<GetUsersType> =>
 
 export const editUser = async (user: ApiUsersType): Promise<ApiUsersType> => {
   const patchUser = await api.patch(`/users`, {
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    password: user.password,
-    image: user.image,
+    ...user,
     updatedAt: Date.now(),
-    _id: new ObjectId(user.id),
   });
 
   return patchUser.data;
@@ -34,3 +28,6 @@ export const createUser = async (
     image: '',
     createdAt: Date.now(),
   });
+
+export const getUser = async (id: string): Promise<ApiUsersType> =>
+  await api.get(`/users?user_id=${id}`);

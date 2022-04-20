@@ -11,6 +11,13 @@ export default async function handler(
 
   switch (req.method) {
     case 'GET': {
+      const {user_id} = req.query;
+      if (user_id) {
+        const findUser = await usersCollection.findOne({
+          _id: new ObjectId(user_id as string),
+        });
+        return res.status(200).json(findUser);
+      }
       const findUsers = await usersCollection.find({}).toArray();
       return res.status(200).json(findUsers);
     }
@@ -35,7 +42,7 @@ export default async function handler(
     }
     case 'PATCH': {
       try {
-        const {email, firstName, lastName, id} = req.body;
+        const {email, firstName, lastName, _id} = req.body;
 
         const user = {
           firstName,
@@ -44,12 +51,10 @@ export default async function handler(
           image: '',
           updatedAt: Date.now(),
         };
-        const updatedUser = await usersCollection.updateOne(
-          {_id: new ObjectId(id)},
-          {
-            $set: user,
-          },
-          {upsert: true}
+        const updatedUser = await usersCollection.findOneAndUpdate(
+          {_id: new ObjectId(_id)},
+          {$set: {...user}},
+          {upsert: false}
         );
 
         if (updatedUser) {

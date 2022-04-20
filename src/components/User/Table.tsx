@@ -7,7 +7,7 @@ import {ApiUsersType} from 'src/types/api';
 
 export type PickUserDataType = Pick<
   ApiUsersType,
-  'firstName' | 'lastName' | 'email' | 'id'
+  'firstName' | 'lastName' | 'email' | '_id'
 >;
 
 type UserTableProps = ApiUsersType & {
@@ -16,7 +16,7 @@ type UserTableProps = ApiUsersType & {
 };
 
 const UserTable: React.FC<UserTableProps> = ({
-  id,
+  _id,
   image,
   firstName,
   lastName,
@@ -34,7 +34,7 @@ const UserTable: React.FC<UserTableProps> = ({
       userApi.deleteUser(id);
 
       const deletedUser: ApiUsersType[] = usersData.filter(
-        user => user.id !== id
+        user => user._id !== id
       );
       setUsersData(deletedUser);
     } catch (e) {
@@ -51,7 +51,7 @@ const UserTable: React.FC<UserTableProps> = ({
     );
     dispatch(
       setCurrentUser({
-        id,
+        _id,
         firstName,
         lastName,
         email,
@@ -59,12 +59,20 @@ const UserTable: React.FC<UserTableProps> = ({
     );
   };
 
-  const handleClick = () => {
+  const handleClick = (e: any) => {
     // TODO: Show user popup info
+    if (e.target.localName !== 'button') {
+      dispatch(
+        showPopup({
+          title: 'Current user info',
+          type: 'userInfo',
+        })
+      );
+    }
   };
 
   return (
-    <TableRow key={id} onClick={handleClick}>
+    <TableRow key={_id} onClick={handleClick}>
       <TableCell width='80px'>
         <Avatar src={image} alt={firstName} />
       </TableCell>
@@ -72,7 +80,9 @@ const UserTable: React.FC<UserTableProps> = ({
       <TableCell>{lastName}</TableCell>
       <TableCell>{email}</TableCell>
       <TableCell>{role}</TableCell>
-      <TableCell>{new Date(createdAt).toLocaleDateString()}</TableCell>
+      <TableCell>
+        {createdAt && new Date(createdAt).toLocaleDateString()}
+      </TableCell>
       <TableCell>
         {updatedAt ? new Date(updatedAt).toLocaleDateString() : 'Do not update'}
       </TableCell>
@@ -81,7 +91,7 @@ const UserTable: React.FC<UserTableProps> = ({
           <Button
             variant='outlined'
             color='secondary'
-            onClick={() => deleteUser(id)}
+            onClick={() => deleteUser(_id)}
           >
             delete
           </Button>
