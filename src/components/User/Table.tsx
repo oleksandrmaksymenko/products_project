@@ -66,6 +66,12 @@ const UserTable: React.FC<UserTableProps> = ({
         showPopup({
           title: 'Current user info',
           type: 'userInfo',
+          popupProps: {
+            _id,
+            firstName,
+            lastName,
+            email,
+          },
         })
       );
     }
