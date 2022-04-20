@@ -4,4 +4,4 @@ export const api = axios.create({
   baseURL: process.env.API_URI,
 });
 
-export * as userApi from './user';
+export * as userApi from 'src/api/user';

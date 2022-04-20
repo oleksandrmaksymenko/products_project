@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
-import React, {MouseEventHandler} from 'react';
+import React from 'react';
 import {userApi} from 'src/api';
 import {checkSession} from 'src/checkSession';
-import type {GetServerSidePropsContext, PreviewData} from 'next';
+import type {GetServerSidePropsContext} from 'next';
 import UserTable, {PickUserDataType} from 'src/components/UserTable';
 import {wrapper} from 'src/store';
 import {useAppDispatch, useAppSelector} from 'src/store/hooks';
@@ -71,7 +71,7 @@ const usersFilterList = (activeButton: string) => [
 const Users: React.FC<UserProps> = () => {
   const users = useAppSelector(store => store.users);
   const [filter, setFilter] = React.useState('');
-  const [usersData, setUsersData] = React.useState<ApiUsersType[]>(users);
+  const [usersData, setUsersData] = React.useState<ApiUsersType[]>([]);
   const [activeButton, setActiveButton] = React.useState('');
 
   const dispatch = useAppDispatch();
@@ -156,30 +156,32 @@ const Users: React.FC<UserProps> = () => {
             ),
           }}
         />
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Avatar</TableCell>
-              <TableCell>First Name</TableCell>
-              <TableCell>Last Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Role</TableCell>
-              <TableCell>Created At</TableCell>
-              <TableCell>Updated At</TableCell>
-              <TableCell />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {usersData.map(user => (
-              <UserTable
-                key={user.id}
-                {...user}
-                {...{setUsersData}}
-                {...{usersData}}
-              />
-            ))}
-          </TableBody>
-        </Table>
+        {!!usersData.length && (
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Avatar</TableCell>
+                <TableCell>First Name</TableCell>
+                <TableCell>Last Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Role</TableCell>
+                <TableCell>Created At</TableCell>
+                <TableCell>Updated At</TableCell>
+                <TableCell />
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {usersData.map(user => (
+                <UserTable
+                  key={user.id}
+                  {...user}
+                  {...{setUsersData}}
+                  {...{usersData}}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </TableContainer>
     </UsersContainer>
   );
@@ -187,9 +189,12 @@ const Users: React.FC<UserProps> = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   store => async (context: GetServerSidePropsContext) => {
-    const {data} = await userApi.getUsers();
-    store.dispatch(getUsers(data));
-
+    // try {
+    //   const {data} = await userApi.getUsers();
+    //   store.dispatch(getUsers(data));
+    // } catch (e) {
+    //   console.log(e);
+    // }
     return await checkSession(context, '', '', false);
   }
 );
