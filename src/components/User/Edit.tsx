@@ -31,7 +31,7 @@ const UseEdit: React.FC<PickUserDataType> = ({
 
   const saveUserData = () => {
     userApi
-      .editUser({
+      .updateUser({
         _id: userData._id,
         firstName: userData.firstName,
         lastName: userData.lastName,

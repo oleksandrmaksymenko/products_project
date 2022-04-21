@@ -4,7 +4,7 @@ import {userApi} from 'src/api';
 import {createUser} from 'src/api/user';
 import {checkSession} from 'src/checkSession';
 import type {GetServerSidePropsContext} from 'next';
-import UserTable, {PickUserDataType} from 'src/components/User/Table';
+import UserTable from 'src/components/User/Table';
 import {wrapper} from 'src/store';
 import {useAppDispatch, useAppSelector} from 'src/store/hooks';
 import {showPopup} from 'src/store/reducers/popup';

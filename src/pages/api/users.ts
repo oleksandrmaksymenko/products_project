@@ -1,15 +1,14 @@
 import {NextApiRequest, NextApiResponse} from 'next';
-import clientPromise from 'src/lib/mongodb';
+import {dbCollection} from 'src/lib/mongodb';
 import {ObjectId} from 'mongodb';
+import {response} from 'src/lib/response';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const client = await clientPromise;
-  const usersCollection = await client
-    .db(process.env.PRODUCT_DB_NAME)
-    .collection('users');
+  const usersCollection = await dbCollection('users');
+  const userResponse = response(res);
 
   switch (req.method) {
     case 'GET': {
@@ -18,10 +17,10 @@ export default async function handler(
         const findUser = await usersCollection.findOne({
           _id: new ObjectId(user_id as string),
         });
-        return res.status(200).json(findUser);
+        return userResponse(200, findUser);
       }
       const findUsers = await usersCollection.find({}).toArray();
-      return res.status(200).json(findUsers);
+      return userResponse(200, findUsers);
     }
     case 'POST': {
       const {email, firstName, lastName} = req.body;
@@ -37,10 +36,10 @@ export default async function handler(
 
         await usersCollection.insertOne(user);
 
-        return res.status(200).json(user);
+        return userResponse(200, user);
       }
 
-      return res.status(401).json({error: true, message: 'User already exist'});
+      return userResponse(401, {error: true, message: 'User already exist'});
     }
     case 'PATCH': {
       try {
@@ -60,13 +59,13 @@ export default async function handler(
         );
 
         if (updatedUser) {
-          return res.status(200).json(user);
+          return userResponse(200, user);
         }
       } catch (e) {
         console.dir(e);
       }
 
-      return res.status(404).json({error: true, message: 'User not found'});
+      return userResponse(404, {error: true, message: 'User not found'});
     }
     case 'DELETE': {
       const {id} = req.body;
@@ -75,12 +74,11 @@ export default async function handler(
       });
 
       if (deletedUser) {
-        return res.status(200).json({id});
+        return userResponse(200, {id});
       }
-
-      return res.status(404).json({error: true, message: 'User not fount'});
+      return userResponse(404, {error: true, message: 'User not fount'});
     }
     default:
-      return res.status(500).json({error: true, message: 'Server Error'});
+      return userResponse(500, {error: true, message: 'Server Error'});
   }
 }
