@@ -1,29 +1,29 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Button, Stack, TextField} from '@mui/material';
 import type {PickUserDataType} from 'src/components/User/Table';
 import styled from '@emotion/styled';
-import {useAppDispatch, useAppSelector} from 'src/store/hooks';
+import {useAppDispatch} from 'src/store/hooks';
 import {clearCurrentUser, clearPopup} from 'src/store/reducers';
 import {userApi} from 'src/api';
-
-type UserModalProps = {
-  isModalShow: boolean;
-  handleClose: () => void;
-  saveUserData: (userData: any) => void;
-  user: PickUserDataType;
-};
 
 const StackContainer = styled.div`
   margin-top: 16px;
 `.withComponent(Stack);
 
-const UserModal: React.FC<UserModalProps> = () => {
+const UseEdit: React.FC<PickUserDataType> = ({
+  _id,
+  firstName,
+  lastName,
+  email,
+}) => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector(state => state.currentUser);
 
-  const [userData, setUserData] = React.useState<
-    PickUserDataType & {password: string}
-  >({...user, password: ''});
+  const [userData, setUserData] = React.useState<PickUserDataType>({
+    _id,
+    firstName,
+    lastName,
+    email,
+  });
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserData({...userData, [e.target.name]: e.target.value});
@@ -101,4 +101,4 @@ const UserModal: React.FC<UserModalProps> = () => {
   );
 };
 
-export default UserModal;
+export default UseEdit;

@@ -4,14 +4,14 @@ type InitialStateType = {
   type: string;
   title: string;
   isShow?: boolean;
-  popupProps?: any;
+  props?: any;
 };
 
 const initialState: InitialStateType = {
   isShow: false,
   type: '',
   title: '',
-  popupProps: null,
+  props: null,
 };
 
 export const popupSlice = createSlice({
@@ -19,16 +19,17 @@ export const popupSlice = createSlice({
   initialState,
   reducers: {
     showPopup(state, {payload}: PayloadAction<InitialStateType>) {
-      state.isShow = true;
-      state.type = payload.type;
-      state.title = payload.title;
-      state.popupProps = payload.popupProps;
+      return {
+        isShow: true,
+        type: payload.type,
+        title: payload.title,
+        props: payload.props,
+      };
     },
-    clearPopup(state) {
-      state.isShow = initialState.isShow;
-      state.type = initialState.type;
-      state.title = initialState.title;
-      state.popupProps = initialState.popupProps;
+    clearPopup() {
+      return {
+        ...initialState,
+      };
     },
   },
 });

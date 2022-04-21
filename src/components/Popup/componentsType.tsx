@@ -1,4 +1,4 @@
-import UserModal from 'src/components/User/Modal';
+import UseEdit from 'src/components/User/Edit';
 import UserCreate from 'src/components/User/Create';
 import UserInfo from 'src/components/User/Info';
 
@@ -10,6 +10,6 @@ export const type = {
 
 export const componentsType = (props: any) => ({
   [type.createUser]: <UserCreate {...props} />,
-  [type.currentUser]: <UserModal {...props} />,
+  [type.currentUser]: <UseEdit {...props} />,
   [type.userInfo]: <UserInfo {...props} />,
 });

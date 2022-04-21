@@ -47,14 +47,12 @@ const UserTable: React.FC<UserTableProps> = ({
       showPopup({
         type: 'currentUser',
         title: 'Edit User',
-      })
-    );
-    dispatch(
-      setCurrentUser({
-        _id,
-        firstName,
-        lastName,
-        email,
+        props: {
+          _id,
+          firstName,
+          lastName,
+          email,
+        },
       })
     );
   };
@@ -66,7 +64,7 @@ const UserTable: React.FC<UserTableProps> = ({
         showPopup({
           title: 'Current user info',
           type: 'userInfo',
-          popupProps: {
+          props: {
             _id,
             firstName,
             lastName,

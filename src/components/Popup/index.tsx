@@ -24,9 +24,7 @@ const IconButtonContainer = styled.button`
 
 const Popup = () => {
   const dispatch = useAppDispatch();
-  const {title, isShow, popupProps, type} = useAppSelector(
-    state => state.popup
-  );
+  const {title, isShow, props, type} = useAppSelector(state => state.popup);
 
   const handleClose = () => {
     dispatch(clearPopup());
@@ -34,7 +32,7 @@ const Popup = () => {
 
   const {componentType} = popupData({
     handleClose,
-    ...popupProps,
+    ...props,
   });
 
   if (isShow)

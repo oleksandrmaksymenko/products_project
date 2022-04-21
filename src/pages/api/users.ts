@@ -7,7 +7,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const client = await clientPromise;
-  const usersCollection = await client.db('projectName').collection('users');
+  const usersCollection = await client
+    .db(process.env.PRODUCT_DB_NAME)
+    .collection('users');
 
   switch (req.method) {
     case 'GET': {
