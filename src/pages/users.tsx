@@ -4,6 +4,10 @@ import {userApi} from 'src/api';
 import {createUser} from 'src/api/user';
 import {checkSession} from 'src/checkSession';
 import type {GetServerSidePropsContext} from 'next';
+import ListHead from 'src/components/List/Head';
+import Pagination from 'src/components/List/Pagination';
+import Search from 'src/components/List/Search';
+import TableTopBar from 'src/components/List/TableTopBar';
 import UserTable from 'src/components/User/Table';
 import {wrapper} from 'src/store';
 import {useAppDispatch, useAppSelector} from 'src/store/hooks';
@@ -18,29 +22,11 @@ import {
   TableHead,
   TableRow,
   Paper,
-  TextField,
-  Stack,
   Button,
-  InputAdornment,
-  Typography,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import AddSharpIcon from '@mui/icons-material/AddSharp';
+import {StackContainer, ListContainer} from 'src/ui';
 
 type UserProps = Record<'users', ApiUsersType[]>;
-
-const StackContainer = styled.div`
-  margin-bottom: 16px;
-`.withComponent(Stack);
-
-const UsersContainer = styled.div`
-  width: 100vw;
-  max-width: 1200px;
-`;
-
-const FilterUserContainer = styled.div`
-  margin-bottom: 16px;
-`.withComponent(Stack);
 
 const FilteredButton = styled.button`
   &.active {
@@ -71,9 +57,10 @@ const usersFilterList = (activeButton: string) => [
 
 const Users: React.FC<UserProps> = () => {
   const users = useAppSelector(store => store.users);
-  const [filter, setFilter] = React.useState('');
+  const [filter, setFilter] = React.useState(' ');
   const [usersData, setUsersData] = React.useState<ApiUsersType[]>(users);
   const [activeButton, setActiveButton] = React.useState('');
+  const [page, setPage] = React.useState(0);
 
   const dispatch = useAppDispatch();
 
@@ -106,30 +93,16 @@ const Users: React.FC<UserProps> = () => {
     setUsersData(filteredUsers);
   };
 
+  console.log(usersData);
+
   return (
-    <UsersContainer>
-      <StackContainer
-        direction='row'
-        justifyContent='space-between'
-        alignItems='stretch'
-      >
-        <Typography variant='h5' color='primary'>
-          Users Management
-        </Typography>
-        <Button
-          onClick={createUser}
-          color='secondary'
-          variant='contained'
-          startIcon={<AddSharpIcon sx={{color: '#fff'}} />}
-        >
-          Create User
-        </Button>
-      </StackContainer>
-      <FilterUserContainer
-        direction='row'
-        justifyContent='flex-start'
-        spacing={2}
-      >
+    <ListContainer>
+      <TableTopBar
+        handleClick={createUser}
+        title='Users Management'
+        type='User'
+      />
+      <StackContainer direction='row' justifyContent='flex-start' spacing={2}>
         {usersFilterList(activeButton).map(item => (
           <FilteredButton
             key={item.id}
@@ -142,49 +115,44 @@ const Users: React.FC<UserProps> = () => {
             {item.text}
           </FilteredButton>
         ))}
-      </FilterUserContainer>
+      </StackContainer>
+      <Pagination page={page} setPage={setPage} />
       <TableContainer component={Paper}>
-        <TextField
-          onChange={filterUser}
-          label='Search user'
-          size='small'
-          sx={{width: 'calc(100% - 32px)', margin: '16px'}}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position='end'>
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
+        <Search onChange={filterUser} label='Search user' />
         {!!usersData.length && (
           <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Avatar</TableCell>
-                <TableCell>First Name</TableCell>
-                <TableCell>Last Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Role</TableCell>
-                <TableCell>Created At</TableCell>
-                <TableCell>Updated At</TableCell>
-                <TableCell />
-              </TableRow>
-            </TableHead>
+            <ListHead
+              head={[
+                // TODO: this should place into db
+                'Avatar',
+                'First Name',
+                'Last Name',
+                'Email',
+                'Role',
+                'Created At',
+                'Updated At',
+                '',
+              ]}
+            />
             <TableBody>
-              {usersData.map(user => (
-                <UserTable
-                  key={user._id}
-                  {...user}
-                  {...{setUsersData}}
-                  {...{usersData}}
-                />
-              ))}
+              {usersData
+                .slice(
+                  filter === '' ? 0 : page * 10,
+                  filter === '' ? 10 : page * 10 + 10
+                )
+                .map(user => (
+                  <UserTable
+                    key={user._id}
+                    {...user}
+                    {...{setUsersData}}
+                    {...{usersData}}
+                  />
+                ))}
             </TableBody>
           </Table>
         )}
       </TableContainer>
-    </UsersContainer>
+    </ListContainer>
   );
 };
 

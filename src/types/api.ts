@@ -28,3 +28,10 @@ export type ApiUsersType = {
   createdAt?: string;
   updatedAt?: string;
 };
+
+export type ApiProductsType = {
+  _id: string;
+  name: string;
+  description: string;
+  image: string;
+};
