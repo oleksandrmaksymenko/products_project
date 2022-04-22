@@ -1,9 +1,13 @@
-import type { NextPage } from 'next'
+import type {NextPage} from 'next';
+import PopularProduct from 'src/components/Home/PopularProduct';
 
 const Home: NextPage = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <div>
+      Home
+      <PopularProduct />
+    </div>
+  );
+};
 
-export default Home
+export default Home;
