@@ -10,7 +10,7 @@ import {Stack, Typography, Paper, Divider} from '@mui/material';
 const menuItems = [
   {
     href: '/',
-    title: 'Home',
+    title: 'Dashboard',
   },
   {
     href: 'users',
@@ -19,10 +19,6 @@ const menuItems = [
   {
     href: 'products',
     title: 'Products',
-  },
-  {
-    href: 'settings',
-    title: 'Settings',
   },
 ];
 

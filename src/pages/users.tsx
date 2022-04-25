@@ -116,7 +116,7 @@ const Users: React.FC<UserProps> = () => {
           </FilteredButton>
         ))}
       </StackContainer>
-      <Pagination page={page} setPage={setPage} />
+      <Pagination page={page} setPage={setPage} pageCount={usersData.length} />
       <TableContainer component={Paper}>
         <Search onChange={filterUser} label='Search user' />
         {!!usersData.length && (

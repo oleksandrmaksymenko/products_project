@@ -4,9 +4,10 @@ import TablePagination from '@mui/material/TablePagination';
 type PaginationProps = {
   page: number;
   setPage: (repPage: number) => void;
+  pageCount: number;
 };
 
-const Pagination: React.FC<PaginationProps> = ({page, setPage}) => {
+const Pagination: React.FC<PaginationProps> = ({page, setPage, pageCount}) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (
@@ -26,7 +27,7 @@ const Pagination: React.FC<PaginationProps> = ({page, setPage}) => {
   return (
     <TablePagination
       component='div'
-      count={100}
+      count={pageCount}
       page={page}
       onPageChange={handleChangePage}
       rowsPerPage={rowsPerPage}

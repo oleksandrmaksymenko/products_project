@@ -24,7 +24,8 @@ const TopBar = styled.div`
 const Profile = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
 const UserTopBar = () => {
@@ -41,10 +42,11 @@ const UserTopBar = () => {
   };
 
   return (
-    <TopBar direction='row'>
+    <TopBar direction='row' justifyContent='space-between'>
+      <div />
       {session && (
         <Profile>
-          <IconButton>
+          <IconButton sx={{marginRight: 3}}>
             <Badge badgeContent={2} color='warning'>
               <NotificationsIcon />
             </Badge>

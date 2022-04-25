@@ -16,7 +16,7 @@ export const productsSlice = createSlice({
   },
   extraReducers: {
     [HYDRATE]: (state, {payload}) => {
-      return payload.users;
+      return payload.products;
     },
   },
 });
