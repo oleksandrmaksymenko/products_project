@@ -24,7 +24,7 @@ import {
   Paper,
   Button,
 } from '@mui/material';
-import {StackContainer, ListContainer} from 'src/ui';
+import {StackBottomContainer, ListContainer} from 'src/ui';
 
 type UserProps = Record<'users', ApiUsersType[]>;
 
@@ -102,7 +102,11 @@ const Users: React.FC<UserProps> = () => {
         title='Users Management'
         type='User'
       />
-      <StackContainer direction='row' justifyContent='flex-start' spacing={2}>
+      <StackBottomContainer
+        direction='row'
+        justifyContent='flex-start'
+        spacing={2}
+      >
         {usersFilterList(activeButton).map(item => (
           <FilteredButton
             key={item.id}
@@ -115,7 +119,7 @@ const Users: React.FC<UserProps> = () => {
             {item.text}
           </FilteredButton>
         ))}
-      </StackContainer>
+      </StackBottomContainer>
       <Pagination page={page} setPage={setPage} pageCount={usersData.length} />
       <TableContainer component={Paper}>
         <Search onChange={filterUser} label='Search user' />

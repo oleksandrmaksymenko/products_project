@@ -1,7 +1,7 @@
 import AddSharpIcon from '@mui/icons-material/AddSharp';
 import {Button, Typography} from '@mui/material';
 import React from 'react';
-import {StackContainer} from 'src/ui';
+import {StackBottomContainer} from 'src/ui';
 
 type TableTopBarProps = {
   handleClick: () => void;
@@ -15,7 +15,7 @@ const TableTopBar: React.FC<TableTopBarProps> = ({
   type,
 }) => {
   return (
-    <StackContainer
+    <StackBottomContainer
       direction='row'
       justifyContent='space-between'
       alignItems='stretch'
@@ -31,7 +31,7 @@ const TableTopBar: React.FC<TableTopBarProps> = ({
       >
         Create {type}
       </Button>
-    </StackContainer>
+    </StackBottomContainer>
   );
 };
 

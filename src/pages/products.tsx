@@ -10,7 +10,8 @@ import ProductsCreate from 'src/components/Products/Create';
 import ProductsUpdate from 'src/components/Products/Update';
 import TableTopBar from 'src/components/List/TableTopBar';
 import {wrapper} from 'src/store';
-import {useAppSelector} from 'src/store/hooks';
+import {useAppDispatch, useAppSelector} from 'src/store/hooks';
+import {showPopup} from 'src/store/reducers';
 import {getProducts} from 'src/store/reducers/products';
 import {ApiProductsType} from 'src/types/api';
 import {ListContainer} from 'src/ui';
@@ -19,12 +20,20 @@ import {TableContainer, Paper, Table} from '@mui/material';
 const t = ['Image', 'Title', 'Price', 'Created At', 'Updated At', ''];
 
 const Products = () => {
+  const dispatch = useAppDispatch();
   const [page, setPage] = React.useState(0);
   const products = useAppSelector(store => store.products);
   const [productsData, setProductsData] =
     React.useState<ApiProductsType[]>(products);
 
-  const createProduct = () => {};
+  const createProduct = () => {
+    dispatch(
+      showPopup({
+        type: 'createProduct',
+        title: 'Create Product',
+      })
+    );
+  };
   const filterProducts = () => {};
 
   return (
@@ -40,7 +49,6 @@ const Products = () => {
         <Table>
           <ListHead head={t} />
           <ProductsList products={productsData} />
-          <ProductsCreate />
           <ProductsUpdate />
         </Table>
       </TableContainer>

@@ -6,6 +6,10 @@ export const ListContainer = styled.div`
   max-width: 1200px;
 `;
 
-export const StackContainer = styled.div`
+export const StackBottomContainer = styled.div`
   margin-bottom: 16px;
+`.withComponent(Stack);
+
+export const StackTopContainer = styled.button`
+  margin-top: 16px;
 `.withComponent(Stack);

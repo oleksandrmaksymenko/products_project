@@ -1,13 +1,9 @@
-import React, {useEffect} from 'react';
-import styled from '@emotion/styled';
-import {Button, Stack, TextField} from '@mui/material';
+import React from 'react';
+import {Stack, TextField} from '@mui/material';
 import {userApi} from 'src/api';
+import ModalButtons from 'src/components/ModalButtons';
 import {useAppDispatch} from 'src/store/hooks';
 import {showSnackBar} from 'src/store/reducers/snackbar';
-
-const StackContainer = styled.button`
-  margin-top: 16px;
-`.withComponent(Stack);
 
 type CreateUserType = {
   firstName: string;
@@ -85,19 +81,7 @@ const UserCreate: React.FC<UserCreateProps> = ({handleClose}) => {
           onChange={handleChange}
         />
       </Stack>
-      <StackContainer
-        direction='row'
-        justifyContent='flex-end'
-        alignItems='center'
-        spacing={2}
-      >
-        <Button color='primary' onClick={handleClose}>
-          Cancel
-        </Button>
-        <Button color='secondary' onClick={handleCreate}>
-          Submit
-        </Button>
-      </StackContainer>
+      <ModalButtons {...{handleClose}} {...{handleCreate}} />
     </>
   );
 };
