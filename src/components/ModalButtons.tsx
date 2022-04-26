@@ -2,11 +2,18 @@ import {Button} from '@mui/material';
 import React from 'react';
 import {StackTopContainer} from 'src/ui';
 
-type ModalButtonsProps = {handleClose: () => void; handleCreate: () => void};
+type ModalButtonsProps = {
+  handleClose: () => void;
+  handleCreate?: () => void;
+  submit?: boolean;
+  error?: boolean;
+};
 
 const ModalButtons: React.FC<ModalButtonsProps> = ({
   handleClose,
   handleCreate,
+  submit,
+  error,
 }) => {
   return (
     <StackTopContainer
@@ -18,7 +25,12 @@ const ModalButtons: React.FC<ModalButtonsProps> = ({
       <Button color='primary' onClick={handleClose}>
         Cancel
       </Button>
-      <Button color='secondary' onClick={handleCreate}>
+      <Button
+        color='secondary'
+        onClick={handleCreate}
+        type={submit ? 'submit' : 'button'}
+        disabled={!error}
+      >
         Submit
       </Button>
     </StackTopContainer>

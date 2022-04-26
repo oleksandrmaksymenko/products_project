@@ -93,8 +93,6 @@ const Users: React.FC<UserProps> = () => {
     setUsersData(filteredUsers);
   };
 
-  console.log(usersData);
-
   return (
     <ListContainer>
       <TableTopBar

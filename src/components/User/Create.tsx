@@ -4,6 +4,9 @@ import {userApi} from 'src/api';
 import ModalButtons from 'src/components/ModalButtons';
 import {useAppDispatch} from 'src/store/hooks';
 import {showSnackBar} from 'src/store/reducers/snackbar';
+import {useForm, Controller} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 type CreateUserType = {
   firstName: string;
@@ -15,25 +18,39 @@ type UserCreateProps = {
   handleClose: () => void;
 };
 
+const userSchema = yup.object({
+  firstName: yup
+    .string()
+    .min(2, 'Must be more than 2 characrers')
+    .required('FirstName is required'),
+  lastName: yup
+    .string()
+    .min(2, 'Must be more than 2 characrers')
+    .required('LastName is required'),
+  email: yup
+    .string()
+    .min(7, 'Must be more than 7 characrers')
+    .email('Invalid email format')
+    .max(255)
+    .required('Email is required'),
+});
+
 const UserCreate: React.FC<UserCreateProps> = ({handleClose}) => {
-  const [userState, setUserState] = React.useState({
-    firstName: '',
-    lastName: '',
-    email: '',
+  const {
+    handleSubmit,
+    formState: {errors},
+    control,
+  } = useForm({
+    resolver: yupResolver(userSchema),
+    mode: 'onBlur',
   });
 
   const dispatch = useAppDispatch();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserState({
-      ...userState,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleCreate = () => {
+  const onSubmit = (data: {[key: string]: any}) => {
+    console.log(data, ' <<< data');
     userApi
-      .createUser(userState)
+      .createUser(data as CreateUserType)
       .then(() => {
         handleClose();
       })
@@ -49,40 +66,71 @@ const UserCreate: React.FC<UserCreateProps> = ({handleClose}) => {
   };
 
   return (
-    <>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Stack
         direction='column'
         justifyContent='center'
         alignItems='stretch'
         spacing={3}
       >
-        <TextField
+        <Controller
           name='firstName'
-          id='firstName'
-          label='User First Name'
-          variant='standard'
-          value={userState.firstName}
-          onChange={handleChange}
+          control={control}
+          render={({field}) => (
+            <TextField
+              label='User First Name'
+              variant='standard'
+              error={errors.firstName}
+              helperText={
+                errors.firstName
+                  ? errors.firstName.message
+                  : 'User first name must be at least 2 characters'
+              }
+              {...field}
+            />
+          )}
         />
-        <TextField
+        <Controller
           name='lastName'
-          id='lastName'
-          label='User Last Name'
-          variant='standard'
-          value={userState.lastName}
-          onChange={handleChange}
+          control={control}
+          render={({field}) => (
+            <TextField
+              label='User Last Name'
+              variant='standard'
+              error={errors.lastName}
+              helperText={
+                errors.lastName
+                  ? errors.lastName.message
+                  : 'User last name must be at least 2 characters'
+              }
+              {...field}
+            />
+          )}
         />
-        <TextField
+        <Controller
           name='email'
-          id='email'
-          label='User email'
-          variant='standard'
-          value={userState.email}
-          onChange={handleChange}
+          control={control}
+          render={({field}) => (
+            <TextField
+              label='User email'
+              variant='standard'
+              error={errors.email}
+              helperText={
+                errors.email
+                  ? errors.email.message
+                  : 'User email must be at least 7 characters'
+              }
+              {...field}
+            />
+          )}
         />
       </Stack>
-      <ModalButtons {...{handleClose}} {...{handleCreate}} />
-    </>
+      <ModalButtons
+        {...{handleClose}}
+        error={Object.values(errors).length === 0}
+        submit
+      />
+    </form>
   );
 };
 

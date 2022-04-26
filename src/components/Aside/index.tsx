@@ -20,6 +20,10 @@ const menuItems = [
     href: 'products',
     title: 'Products',
   },
+  {
+    href: 'orders',
+    title: 'Orders',
+  },
 ];
 
 const StyledAside = styled.aside`
@@ -52,7 +56,7 @@ const Aside: React.FC = () => {
           <img src='https://via.placeholder.com/50' alt='' />
           <Figcaption>
             <Typography variant='body1' color='secondary'>
-              project name
+              O'lawander
             </Typography>
             <Typography variant='body2' color={blueGrey[50]}>
               v0.0.1
