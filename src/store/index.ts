@@ -7,6 +7,7 @@ import {
   themeSlice,
   currentUserSlice,
   productsSlice,
+  companiesSlice,
 } from 'src/store/reducers';
 
 const makeStore = () =>
@@ -18,6 +19,7 @@ const makeStore = () =>
       [themeSlice.name]: themeSlice.reducer,
       [currentUserSlice.name]: currentUserSlice.reducer,
       [productsSlice.name]: productsSlice.reducer,
+      [companiesSlice.name]: companiesSlice.reducer,
     },
     devTools: true,
   });

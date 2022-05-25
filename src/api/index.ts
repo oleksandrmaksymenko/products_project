@@ -9,3 +9,4 @@ export const api = axios.create({
 
 export * as userApi from 'src/api/user';
 export * as productApi from 'src/api/products';
+export * as companiesApi from 'src/api/companies';

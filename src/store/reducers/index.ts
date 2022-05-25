@@ -4,3 +4,4 @@ export * from './theme';
 export * from './snackbar';
 export * from './currentUser';
 export * from './products';
+export * from './companies';
