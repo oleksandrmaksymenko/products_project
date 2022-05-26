@@ -12,6 +12,7 @@ type CreateUserType = {
   firstName: string;
   lastName: string;
   email: string;
+  _id: string;
 };
 
 type UserCreateProps = {
@@ -48,7 +49,6 @@ const UserCreate: React.FC<UserCreateProps> = ({handleClose}) => {
   const dispatch = useAppDispatch();
 
   const onSubmit = (data: {[key: string]: any}) => {
-    console.log(data, ' <<< data');
     userApi
       .createUser(data as CreateUserType)
       .then(() => {

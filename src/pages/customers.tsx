@@ -55,7 +55,7 @@ const usersFilterList = (activeButton: string) => [
   },
 ];
 
-const Users: React.FC<UserProps> = () => {
+const Customers: React.FC<UserProps> = () => {
   const users = useAppSelector(store => store.users);
   const [filter, setFilter] = React.useState(' ');
   const [usersData, setUsersData] = React.useState<ApiUsersType[]>(users);
@@ -97,7 +97,7 @@ const Users: React.FC<UserProps> = () => {
     <ListContainer>
       <TableTopBar
         handleClick={createUser}
-        title='Users Management'
+        title='Customers Management'
         type='User'
       />
       <StackBottomContainer
@@ -170,4 +170,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
   }
 );
 
-export default Users;
+export default Customers;

@@ -1,6 +1,7 @@
 import React from 'react';
 import {userApi} from 'src/api';
 import {TableCell, TableRow, Avatar, Button, Stack} from '@mui/material';
+import {type} from 'src/components/Popup/componentsType';
 import {useAppDispatch} from 'src/store/hooks';
 import {setCurrentUser, showPopup} from 'src/store/reducers';
 import {ApiUsersType} from 'src/types/api';
@@ -45,7 +46,7 @@ const UserTable: React.FC<UserTableProps> = ({
   const handleEdit = () => {
     dispatch(
       showPopup({
-        type: 'currentUser',
+        type: type.currentUser,
         title: 'Edit User',
         props: {
           _id,

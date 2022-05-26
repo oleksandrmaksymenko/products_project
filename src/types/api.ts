@@ -31,8 +31,8 @@ export type ApiUsersType = {
 
 export type ApiProductsType = {
   _id: string;
-  title: string;
   description: string;
   image: string;
   price: string;
+  name: string;
 };

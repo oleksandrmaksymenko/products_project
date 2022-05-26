@@ -49,7 +49,6 @@ const Products = () => {
         <Table>
           <ListHead head={t} />
           <ProductsList products={productsData} />
-          <ProductsUpdate />
         </Table>
       </TableContainer>
     </ListContainer>

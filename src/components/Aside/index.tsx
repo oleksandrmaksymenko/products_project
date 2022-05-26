@@ -13,7 +13,7 @@ const menuItems = [
     title: 'Dashboard',
   },
   {
-    href: 'users',
+    href: 'customers',
     title: 'Customers',
   },
   {
