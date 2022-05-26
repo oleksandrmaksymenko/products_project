@@ -14,7 +14,7 @@ const menuItems = [
   },
   {
     href: 'users',
-    title: 'Users',
+    title: 'Customers',
   },
   {
     href: 'products',
@@ -56,7 +56,7 @@ const Aside: React.FC = () => {
           <img src='https://via.placeholder.com/50' alt='' />
           <Figcaption>
             <Typography variant='body1' color='secondary'>
-              O'lawander
+              Company name
             </Typography>
             <Typography variant='body2' color={blueGrey[50]}>
               v0.0.1

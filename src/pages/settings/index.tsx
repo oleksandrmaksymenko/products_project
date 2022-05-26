@@ -5,7 +5,7 @@ import {wrapper} from 'src/store';
 import {companiesApi} from 'src/api';
 import {getCompanies} from 'src/store/reducers';
 
-const Settings = () => {
+const Index = () => {
   return <div>settings</div>;
 };
 
@@ -21,4 +21,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
   }
 );
 
-export default Settings;
+export default Index;

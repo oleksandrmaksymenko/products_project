@@ -1,32 +1,25 @@
 import {NextApiRequest, NextApiResponse} from 'next';
-import {dbCollection} from 'src/lib/mongodb';
-import {response} from 'src/lib/response';
-import {ObjectId} from 'mongodb';
+import {requestHandler} from 'src/lib/requestHandler';
+
+type BodyParamType = {
+  name: string;
+  id: string;
+  description: string;
+  image: string;
+  userId: string;
+};
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const companiesCollection = await dbCollection('companies');
-  const companiesResponse = response(res);
+  const {id, name, description, image, userId} = req.body;
 
-  const {
-    method,
-    body,
-    query: {company_id},
-  } = req;
-
-  switch (method) {
-    case 'GET': {
-      if (company_id) {
-        const company = await companiesCollection.findOne({
-          _id: new ObjectId(company_id as string),
-        });
-
-        return companiesResponse(200, company);
-      }
-      const companies = await companiesCollection.find({}).toArray();
-      return companiesResponse(200, companies);
-    }
-  }
+  await requestHandler<BodyParamType>(req, res, 'companies', 'company_id', {
+    name,
+    id,
+    description,
+    image,
+    userId,
+  });
 }

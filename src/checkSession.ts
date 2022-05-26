@@ -37,6 +37,7 @@ export const checkSession = async <T>(
       props: {
         session,
         role: roles.role,
+        isAllowed: !!roles.role,
         ...props,
       },
     };

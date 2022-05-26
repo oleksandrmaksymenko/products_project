@@ -49,7 +49,7 @@ const UseEdit: React.FC<PickUserDataType> = ({
         },
       })
       .then(() => {
-        console.log(123);
+        handleCancel();
       })
       .catch(err => {
         console.log(err);
