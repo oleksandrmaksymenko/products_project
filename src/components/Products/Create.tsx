@@ -8,10 +8,10 @@ import {productApi} from 'src/api';
 const ProductsCreate = () => {
   const dispatch = useAppDispatch();
   const [productState, setProductState] = useState({
-    title: '',
     description: '',
     price: '',
     image: '',
+    name: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +38,7 @@ const ProductsCreate = () => {
         id='title'
         label='Product Title'
         variant='standard'
-        value={productState.title}
+        value={productState.name}
         onChange={handleChange}
       />
       <TextField

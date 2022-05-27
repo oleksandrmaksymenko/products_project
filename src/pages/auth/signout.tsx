@@ -1,4 +1,4 @@
-import {NextPageContext} from 'next';
+import {GetServerSidePropsContext} from 'next';
 import React from 'react';
 import {useSession, signOut} from 'next-auth/react';
 import {checkSession} from 'src/checkSession';
@@ -11,7 +11,7 @@ const SignOut = () => {
   return <div>{status}</div>;
 };
 
-export async function getServerSideProps(context: NextPageContext) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   return await checkSession(context, '', '', false);
 }
 
