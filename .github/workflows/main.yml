@@ -22,6 +22,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
+        run: yarn
+      - run: yarn build
         env:
           MONGODB_URI: mongodb+srv://gabe:123@cluster0.jwcdp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
           DB_NAME: myFirstDatabase
@@ -31,6 +33,4 @@ jobs:
           GOOGLE_ID: 820321549206-1klka8ph07m1j5n006fhr90ra2ot3p9u.apps.googleusercontent.com
           GOOGLE_SECRET: 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
           NEXTAUTH_URL: https://products-project-six.vercel.app
-          NEXT_PUBLIC_API_URI: https://products-project-six.vercel.app//api
-        run: yarn
-      - run: yarn build
+          NEXT_PUBLIC_API_URI: https://products-project-six.vercel.app/api
