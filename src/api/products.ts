@@ -1,7 +1,7 @@
 import {ApiProductsType} from 'src/types/api';
 import {api} from './index';
 
-const products = '/products'
+const products = '/products';
 
 export const getProducts = async () => await api.get(products);
 

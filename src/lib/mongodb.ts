@@ -1,5 +1,6 @@
 // @ts-nocheck
 import {MongoClient} from 'mongodb';
+import {productsSchema} from 'src/schema/productsSchema';
 
 const uri = process.env.MONGODB_URI;
 const options = {
@@ -30,6 +31,15 @@ if (process.env.NODE_ENV === 'development') {
 
 export const dbCollection = async (collectionName: string) => {
   const client = await clientPromise;
+
+  productsSchema(clientPromise)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
   return await client
     .db(process.env.PRODUCT_DB_NAME)
     .collection(collectionName);

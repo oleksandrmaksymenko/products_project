@@ -6,8 +6,10 @@ import {
   Menu,
   MenuItem,
   Stack,
+  Link as Href,
 } from '@mui/material';
 import {signOut, useSession} from 'next-auth/react';
+import Link from 'next/link';
 import React from 'react';
 import styled from '@emotion/styled';
 import UserCard from 'src/components/User/Card';
@@ -61,8 +63,13 @@ const UserTopBar = () => {
             onClose={handleClose}
             TransitionComponent={Fade}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose}>
+              <Link href='/profile/settings' passHref>
+                <Href variant='body1' underline='none'>
+                  Settings
+                </Href>
+              </Link>
+            </MenuItem>
             <Divider />
             <MenuItem onClick={() => signOut()}>Sign out</MenuItem>
           </Menu>
