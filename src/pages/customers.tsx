@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {userApi} from 'src/api';
 import {createUser} from 'src/api/user';
 import {checkSession} from 'src/checkSession';
@@ -8,6 +8,7 @@ import ListHead from 'src/components/List/Head';
 import Pagination from 'src/components/List/Pagination';
 import Search from 'src/components/List/Search';
 import TableTopBar from 'src/components/List/TableTopBar';
+import {type} from 'src/components/Popup/componentsType';
 import UserTable from 'src/components/User/Table';
 import {wrapper} from 'src/store';
 import {useAppDispatch, useAppSelector} from 'src/store/hooks';
@@ -26,7 +27,10 @@ import {
 } from '@mui/material';
 import {StackBottomContainer, ListContainer} from 'src/ui';
 
-type UserProps = Record<'users', ApiUsersType[]>;
+type UserProps = Record<'users', ApiUsersType[]> & {
+  companies?: boolean;
+  isAllowed: boolean;
+};
 
 const FilteredButton = styled.button`
   &.active {
@@ -55,7 +59,7 @@ const usersFilterList = (activeButton: string) => [
   },
 ];
 
-const Customers: React.FC<UserProps> = () => {
+const Customers: React.FC<UserProps> = ({companies}) => {
   const users = useAppSelector(store => store.users);
   const [filter, setFilter] = React.useState(' ');
   const [usersData, setUsersData] = React.useState<ApiUsersType[]>(users);
@@ -75,10 +79,24 @@ const Customers: React.FC<UserProps> = () => {
     setUsersData(filteredUsers);
   };
 
+  useEffect(() => {
+    if (companies) {
+      dispatch(
+        showPopup({
+          type: type.createCompany,
+          title: 'Create Company',
+          props: {
+            hideClose: true,
+          },
+        })
+      );
+    }
+  }, []);
+
   const createUser = () => {
     dispatch(
       showPopup({
-        type: 'createUser',
+        type: type.createUser,
         title: 'Create User',
       })
     );

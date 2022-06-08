@@ -39,9 +39,11 @@ const Popup = () => {
     return (
       <Modal open={isShow} onClose={handleClose}>
         <PaperContainer>
-          <IconButtonContainer onClick={handleClose}>
-            <CloseIcon />
-          </IconButtonContainer>
+          {!props.hideClose && (
+            <IconButtonContainer onClick={handleClose}>
+              <CloseIcon />
+            </IconButtonContainer>
+          )}
           <Typography variant='h6' component='p' color='secondary'>
             {title}
           </Typography>

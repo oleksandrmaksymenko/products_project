@@ -36,3 +36,10 @@ export type ApiProductsType = {
   price: string;
   name: string;
 };
+
+export type ApiCompaniesType = {
+  _id: string;
+  name: string;
+  createdAt: string;
+  updatedAt?: string;
+};

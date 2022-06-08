@@ -30,8 +30,22 @@ export const checkSession = async <T>(
   const roles = await db
     .collection('roles')
     .findOne({userId: user?._id.toString()});
+  const companies = await db.collection('companies').find({}).toArray();
+  console.log(companies);
 
-  if (session)
+  if (session) {
+    if (!companies.length) {
+      return {
+        props: {
+          companies: !companies.length,
+          session,
+          role: roles.role,
+          isAllowed: !!roles.role,
+          ...props,
+        },
+      };
+    }
+
     return {
       ...redirect(signIn, isRedirect),
       props: {
@@ -41,6 +55,7 @@ export const checkSession = async <T>(
         ...props,
       },
     };
+  }
 
   return {
     ...redirect(signOut, isRedirect),
