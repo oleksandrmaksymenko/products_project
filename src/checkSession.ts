@@ -1,6 +1,7 @@
-import {GetServerSidePropsContext, NextPageContext} from 'next';
+import {GetServerSidePropsContext} from 'next';
 import {getSession} from 'next-auth/react';
 import clientPromise from 'src/lib/mongodb';
+import {ObjectId} from 'mongodb';
 
 const redirect = (destination?: string, isRedirect?: boolean) => {
   if (isRedirect && destination) {
@@ -13,41 +14,36 @@ const redirect = (destination?: string, isRedirect?: boolean) => {
   }
 };
 
+type CheckSessionType = {
+  context: GetServerSidePropsContext;
+  signIn?: string;
+  signOut?: string;
+  isRedirect?: boolean;
+};
+
 export const checkSession = async <T>(
-  ctx: GetServerSidePropsContext,
-  signIn?: string,
-  signOut?: string,
-  isRedirect?: boolean,
+  {context, signIn, signOut, isRedirect}: CheckSessionType,
   props?: T
 ) => {
-  const session = await getSession(ctx);
+  const session = await getSession(context);
   const client = await clientPromise;
-  const db = client.db(process.env.DB_NAME);
+  const adminDb = client.db(process.env.DB_NAME);
+  const userDb = client.db(process.env.PRODUCT_DB_NAME);
 
-  const user = await db
+  const user = await adminDb
     .collection('users')
     .findOne({email: session?.user.email});
-  const roles = await db
+  const roles = await adminDb
     .collection('roles')
     .findOne({userId: user?._id.toString()});
-  const companies = await db.collection('companies').find({}).toArray();
-  console.log(companies);
-
+  const companies = await userDb
+    .collection('companies')
+    .find({userId: new ObjectId(user?._id.toString())})
+    .toArray();
+  // TODO: DO some with companies
   if (session) {
-    if (!companies.length) {
-      return {
-        props: {
-          companies: !companies.length,
-          session,
-          role: roles.role,
-          isAllowed: !!roles.role,
-          ...props,
-        },
-      };
-    }
-
     return {
-      ...redirect(signIn, isRedirect),
+      ...redirect(signIn || '/', isRedirect || false),
       props: {
         session,
         role: roles.role,
@@ -58,7 +54,7 @@ export const checkSession = async <T>(
   }
 
   return {
-    ...redirect(signOut, isRedirect),
+    ...redirect(signOut || '/', isRedirect || false),
     props: {},
   };
 };

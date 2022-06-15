@@ -3,23 +3,12 @@ import {GetServerSidePropsContext} from 'next';
 import {signIn} from 'next-auth/react';
 import {checkSession} from 'src/checkSession';
 import Button from '@mui/material/Button';
+import SignIn from 'src/components/Auth/SignIn';
 
-const SignIn = () => {
-  const handeClick = () => {
-    signIn('google')
-      .then(res => {
-        console.log(res);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  };
-
-  return <Button onClick={handeClick}>signIn</Button>;
-};
+const LogIn = () => <SignIn />;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  return await checkSession(context, '/profile', '', true);
+  return await checkSession({context, signIn: '/profile', isRedirect: true});
 }
 
-export default SignIn;
+export default LogIn;

@@ -12,7 +12,7 @@ const SignOut = () => {
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  return await checkSession(context, '', '', false);
+  return await checkSession({context});
 }
 
 export default SignOut;

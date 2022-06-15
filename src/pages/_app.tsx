@@ -25,12 +25,12 @@ function App({
       jssStyles.parentElement.removeChild(jssStyles);
     }
   }, []);
-
+  // TODO: Page props can pass props and I can configure Layout
   return (
     <SessionProvider session={session}>
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={theme ? lightTheme : darkTheme}>
-          <Layout>
+          <Layout isCompanyExist={false}>
             <Component {...pageProps} />
           </Layout>
         </ThemeProvider>

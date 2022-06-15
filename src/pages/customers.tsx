@@ -184,7 +184,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     } catch (e) {
       console.log(e);
     }
-    return await checkSession(context, '', '', false);
+    return await checkSession({context});
   }
 );
 

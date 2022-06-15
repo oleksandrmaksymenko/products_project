@@ -64,7 +64,11 @@ export const getServerSideProps = wrapper.getServerSideProps(
       console.log(e);
     }
 
-    return await checkSession(context, '', '/auth/signin', true);
+    return await checkSession({
+      context,
+      signOut: '/auth/signin',
+      isRedirect: true,
+    });
   }
 );
 
