@@ -15,11 +15,19 @@ export default async function handler(
 ) {
   const {id, name, description, image, userId} = req.body;
 
-  await requestHandler<BodyParamType>(req, res, 'companies', 'company_id', {
-    name,
-    id,
-    description,
-    image,
-    userId,
-  });
+  const data = await requestHandler<BodyParamType>(
+    req,
+    res,
+    'companies',
+    'company_id',
+    {
+      name,
+      id,
+      description,
+      image,
+      userId,
+    }
+  );
+
+  console.log(data);
 }

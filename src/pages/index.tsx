@@ -21,7 +21,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       if (data.length) {
         return await checkSession({
           context,
-          signIn: '/company',
+          signIn: '/company/create',
           isRedirect: true,
         });
       }

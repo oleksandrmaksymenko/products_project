@@ -84,7 +84,7 @@ const Customers: React.FC<UserProps> = ({companies}) => {
       dispatch(
         showPopup({
           type: type.createCompany,
-          title: 'Create Company',
+          title: 'Create Create',
           props: {
             hideClose: true,
           },

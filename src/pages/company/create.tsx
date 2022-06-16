@@ -3,9 +3,10 @@ import {GetServerSidePropsContext} from 'next';
 import {checkSession} from 'src/checkSession';
 import {wrapper} from 'src/store';
 import {companiesApi} from 'src/api';
+import * as Create from 'src/components/Company/Create';
 
-const Company = () => {
-  return <div>Company</div>;
+const CompanyCreate = () => {
+  return <Create.default />;
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
@@ -23,4 +24,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
   }
 );
 
-export default Company;
+export default CompanyCreate;

@@ -40,6 +40,7 @@ export type ApiProductsType = {
 export type ApiCompaniesType = {
   _id: string;
   name: string;
-  createdAt: string;
+  description: string;
+  createdAt?: string;
   updatedAt?: string;
 };
