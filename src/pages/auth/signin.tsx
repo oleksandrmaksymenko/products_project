@@ -8,7 +8,7 @@ import SignIn from 'src/components/Auth/SignIn';
 const LogIn = () => <SignIn />;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  return await checkSession({context, signIn: '/profile', isRedirect: true});
+  return await checkSession({context});
 }
 
 export default LogIn;

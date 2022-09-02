@@ -1,7 +1,7 @@
 import type {AppProps} from 'next/app';
 import {SessionProvider} from 'next-auth/react';
-import {useEffect} from 'react';
-import Layout from 'src/components/Layout';
+import React, {useEffect} from 'react';
+import Head from 'next/head';
 import {ThemeProvider} from '@mui/material/styles';
 import {CacheProvider} from '@emotion/react';
 import {useAppSelector} from 'src/store/hooks';
@@ -27,15 +27,21 @@ function App({
   }, []);
   // TODO: Page props can pass props and I can configure Layout
   return (
-    <SessionProvider session={session}>
-      <CacheProvider value={emotionCache}>
-        <ThemeProvider theme={theme ? lightTheme : darkTheme}>
-          <Layout isCompanyExist={false}>
+    <>
+      <Head>
+        <link
+          rel='stylesheet'
+          href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap'
+        />
+      </Head>
+      <SessionProvider session={session}>
+        <CacheProvider value={emotionCache}>
+          <ThemeProvider theme={theme ? lightTheme : darkTheme}>
             <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
-      </CacheProvider>
-    </SessionProvider>
+          </ThemeProvider>
+        </CacheProvider>
+      </SessionProvider>
+    </>
   );
 }
 
